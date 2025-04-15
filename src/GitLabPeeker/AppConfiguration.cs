@@ -1,4 +1,6 @@
-﻿namespace GitLabPeeker;
+﻿using GitLabApiClient.Models.Pipelines;
+
+namespace GitLabPeeker;
 
 internal class AppConfiguration
 {
@@ -6,4 +8,6 @@ internal class AppConfiguration
     public string GitLabUrl { get; set; } = null!;
     public string GroupPeeking { get; set; } = null!;
     public int MinRefreshRateSeconds { get; set; }
+
+    public PipelineStatus[] StatusToPeek { get; set; }
 }
