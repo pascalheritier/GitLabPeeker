@@ -9,10 +9,12 @@ namespace GitLabPeeker;
 
 class Program
 {
-    #region App Config
+    #region Members
 
     private static string AppSettingsFileName = "appsettings.json";
     private static string LogConfigFileName = "NLog.config";
+
+    private static bool m_bMustExit;
 
     #endregion
 
@@ -25,12 +27,57 @@ class Program
             IServiceCollection services = new ServiceCollection();
             ConfigureServices(services);
             IServiceProvider serviceProvider = services.BuildServiceProvider();
-            var runner = serviceProvider.GetRequiredService<Peeker>();
-            runner.Run();
+            do
+            {
+                PrintMenu();
+                SelectChoice(serviceProvider);
+            } while (!m_bMustExit);
         }
         catch (Exception ex)
         {
             LogManager.GetCurrentClassLogger().Log(NLog.LogLevel.Fatal, $"Critical app failure: {ex.Message}{Environment.NewLine}{ex.StackTrace}");
+        }
+    }
+
+    private static void PrintMenu()
+    {
+        Console.WriteLine("---------------------GITLAB HELPER---------------------");
+        Console.WriteLine("----------------------Menu---------------------");
+        Console.WriteLine("1. Pipeline peeker");
+        Console.WriteLine("2. Branch peeker");
+        Console.WriteLine("0. Exit");
+    }
+
+    private static void SelectChoice(IServiceProvider serviceProvider)
+    {
+        string? menuChoice = Console.ReadLine();
+        if (int.TryParse(menuChoice, out int menuChoiceInt))
+        {
+            switch (menuChoiceInt)
+            {
+                case 0:
+                    m_bMustExit = true;
+                    break;
+                case 1:
+                    var pipelinePeeker = serviceProvider.GetRequiredService<Peeker>();
+                    pipelinePeeker.Run();
+                    break;
+                case 2:
+                    var branchPeeker = serviceProvider.GetRequiredService<BranchPeeker>();
+                    string? branchFilter;
+                    do
+                    {
+                        Console.Write("Branch filter: ");
+                        branchFilter = Console.ReadLine();
+                        if (branchFilter is null)
+                            Console.WriteLine("Branch filter should not be null.");
+                    } while (branchFilter is null);
+                    branchPeeker.Run(branchFilter);
+                    break;
+                default:
+                    Console.WriteLine($"Entry {menuChoiceInt} is out of range");
+                    break;
+            }
         }
     }
 
@@ -54,6 +101,7 @@ class Program
             loggingBuilder.AddNLog(GetLogConfiguration());
         });
         services.AddTransient<Peeker>();
+        services.AddTransient<BranchPeeker>();
     }
 
     private static LoggingConfiguration GetLogConfiguration()
