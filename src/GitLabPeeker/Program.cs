@@ -59,7 +59,7 @@ class Program
                     m_bMustExit = true;
                     break;
                 case 1:
-                    var pipelinePeeker = serviceProvider.GetRequiredService<Peeker>();
+                    var pipelinePeeker = serviceProvider.GetRequiredService<PipelinePeeker>();
                     pipelinePeeker.Run();
                     break;
                 case 2:
@@ -100,7 +100,7 @@ class Program
             loggingBuilder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
             loggingBuilder.AddNLog(GetLogConfiguration());
         });
-        services.AddTransient<Peeker>();
+        services.AddTransient<PipelinePeeker>();
         services.AddTransient<BranchPeeker>();
     }
 
