@@ -41,7 +41,7 @@ class Program
 
     private static void PrintMenu()
     {
-        Console.WriteLine("---------------------GITLAB HELPER---------------------");
+        Console.WriteLine("---------------------GITLAB PEEKER---------------------");
         Console.WriteLine("----------------------Menu---------------------");
         Console.WriteLine("1. Pipeline peeker");
         Console.WriteLine("2. Branch peeker");
