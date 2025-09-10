@@ -1,15 +1,13 @@
 ﻿using GitLabApiClient;
 using GitLabApiClient.Models.Groups.Responses;
-using GitLabApiClient.Models.Issues.Responses;
 using GitLabApiClient.Models.Pipelines;
 using GitLabApiClient.Models.Pipelines.Responses;
 using GitLabApiClient.Models.Projects.Responses;
 using Microsoft.Extensions.Logging;
-using System.Reflection.Emit;
 
 namespace GitLabPeeker;
 
-internal class Peeker
+internal class PipelinePeeker
 {
     #region Members
 
@@ -20,10 +18,10 @@ internal class Peeker
 
     #region Constructor
 
-    public Peeker(AppConfiguration appConfiguration, ILoggerFactory loggerFactory)
+    public PipelinePeeker(AppConfiguration appConfiguration, ILoggerFactory loggerFactory)
     {
         _appConfiguration = appConfiguration;
-        _logger = loggerFactory.CreateLogger<Peeker>();
+        _logger = loggerFactory.CreateLogger<PipelinePeeker>();
     }
 
     #endregion
