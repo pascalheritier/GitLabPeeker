@@ -1,13 +1,7 @@
 ﻿using GitLabApiClient;
-using GitLabApiClient.Models.Branches.Requests;
 using GitLabApiClient.Models.Branches.Responses;
-using GitLabApiClient.Models.Groups.Responses;
-using GitLabApiClient.Models.Issues.Responses;
-using GitLabApiClient.Models.Pipelines;
-using GitLabApiClient.Models.Pipelines.Responses;
 using GitLabApiClient.Models.Projects.Responses;
 using Microsoft.Extensions.Logging;
-using System.Reflection.Emit;
 
 namespace GitLabPeeker;
 
